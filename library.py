@@ -1,60 +1,91 @@
 def welcome():
-    print("Welcome to Library Management System\n")
+    print("\nWelcome to Library Management System")
+    print("1. Register")
+    print("2. Login")
+    print("3. Exit")
 
 library = []
+students = []
 
-def add_book(book_name, author_name):
-    book = {
-        "title": book_name,
-        "author": author_name
-    }
-    library.append(book)
-    print(f"Book '{book_name}' by {author_name} added successfully")
+admin_uname = "admin"
+admin_password = "admin123"
+
+def register_student(name, student_id, password):
+    students.append({
+        "name": name,
+        "id": student_id,
+        "password": password
+    })
+    print("Student registered successfully\n")
+
+def student_login(student_id, password):
+    for s in students:
+        if s["id"] == student_id and s["password"] == password:
+            print(f"Welcome {s['name']} (Student)\n")
+            return True
+    print("Invalid student credentials\n")
+    return False
+
+def admin_login(username, password):
+    return username == admin_uname and password == admin_password
+
+def add_book(title, author):
+    library.append({"title": title, "author": author})
+    print("Book added successfully\n")
+
+def delete_book(title):
+    for book in library:
+        if book["title"] == title:
+            library.remove(book)
+            print("Book deleted successfully\n")
+            return
+    print("Book not found\n")
 
 def view_books():
     if not library:
-        print("\nNo books available")
+        print("No books available\n")
     else:
-        print("\nAvailable books:")
         for book in library:
-            print(f"- {book['title']} (Author: {book['author']})")
-    print("\n")
+            print(f"- {book['title']} ({book['author']})")
+        print()
 
-def delete_book(book_name):
-    for book in library:
-        if book["title"] == book_name:
-            library.remove(book)
-            print(f"Book '{book_name}' deleted successfully")
-            return
-    print(f"Book '{book_name}' not found")
+while True:
+    welcome()
+    choice = input("Enter choice: ")
 
-students = []
+    if choice == "1":
+        name = input("Enter name: ")
+        sid = input("Enter student ID: ")
+        pwd = input("Create password: ")
+        register_student(name, sid, pwd)
 
-def register_student(student_name, student_id):
-    student = {
-        "name": student_name,
-        "id": student_id
-    }
-    students.append(student)
-    print(f"Student '{student_name}' (ID: {student_id}) registered successfully")
+    elif choice == "2":
+        role = input("Login as (admin/student): ").lower()
 
-def view_students():
-    if not students:
-        print("No students registered")
+        if role == "admin":
+            u = input("Username: ")
+            p = input("Password: ")
+
+            if admin_login(u, p):
+                print("Admin login successful\n")
+                add_book("Python Basics", "Preeti Arora")
+                delete_book("Python Basics")
+            else:
+                print("Invalid admin credentials\n")
+
+        elif role == "student":
+            sid = input("Student ID: ")
+            pwd = input("Password: ")
+
+            if student_login(sid, pwd):
+                view_books()
+
+        else:
+            print("Invalid role\n")
+
+    elif choice == "3":
+        print("Exiting system...")
+        break
+
     else:
-        print("Registered Students:")
-        for s in students:
-            print(f"- {s['id']} : {s['name']}")
-
-welcome()
-add_book("Python Basics", "Preeti Arora")
-add_book("Java Fundamentals", "Herbert Schildt")
-view_books()
-
-delete_book("Python Basics")
-view_books()
-
-print("\n--- Student Registration Module ---")
-register_student("Aman Sumesh", "23CSE101")
-register_student("Ravi Kumar", "23CSE102")
-view_students()
+        print("Invalid choice\n")
