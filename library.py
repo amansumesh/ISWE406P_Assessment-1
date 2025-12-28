@@ -1,5 +1,5 @@
 def welcome():
-    print("\nWelcome to Library Management System")
+    print("\nWelcome to Library System")
     print("1. Register")
     print("2. Login")
     print("3. Exit")
