@@ -28,6 +28,24 @@ def delete_book(book_name):
             return
     print(f"Book '{book_name}' not found")
 
+students = []
+
+def register_student(student_name, student_id):
+    student = {
+        "name": student_name,
+        "id": student_id
+    }
+    students.append(student)
+    print(f"Student '{student_name}' (ID: {student_id}) registered successfully")
+
+def view_students():
+    if not students:
+        print("No students registered")
+    else:
+        print("Registered Students:")
+        for s in students:
+            print(f"- {s['id']} : {s['name']}")
+
 welcome()
 add_book("Python Basics", "Preeti Arora")
 add_book("Java Fundamentals", "Herbert Schildt")
@@ -35,3 +53,8 @@ view_books()
 
 delete_book("Python Basics")
 view_books()
+
+print("\n--- Student Registration Module ---")
+register_student("Aman Sumesh", "23CSE101")
+register_student("Ravi Kumar", "23CSE102")
+view_students()
